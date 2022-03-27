@@ -1,39 +1,39 @@
 import boto3
 
-def handler(event, context):
+def handler(event, context): 
     """
     Lambda function that starts a job flow in EMR.
     """
     client = boto3.client('emr', region_name='us-east-2')
 
     cluster_id = client.run_job_flow(
-                Name='EMR-Elwes-IGTI-parquet',
-                ServiceRole='EMR_DefaultRole',
-                JobFlowRole='EMR_EC2_DefaultRole',
-                VisibleToAllUsers=True,
-                LogUri='s3://datalake-igti-tf-producao-151128108040/emr-logs',
-                ReleaseLabel='emr-6.3.0',
-                Instances={
+                Name              = 'EMR-Elwes-IGTI-parquet',
+                ServiceRole       = 'EMR_DefaultRole',
+                JobFlowRole       = 'EMR_EC2_DefaultRole',
+                VisibleToAllUsers = True,
+                LogUri            = 's3://datalake-igti-tf-producao-151128108040/emr-logs',
+                ReleaseLabel      = 'emr-6.3.0',
+                Instances         = {
                     'InstanceGroups': [
                         {
-                            'Name': 'Master nodes',
-                            'Market': 'SPOT',
-                            'InstanceRole': 'MASTER',
-                            'InstanceType': 'm5.xlarge',
+                            'Name'         : 'Master nodes',
+                            'Market'       : 'SPOT',
+                            'InstanceRole' : 'MASTER',
+                            'InstanceType' : 'm5.xlarge',
                             'InstanceCount': 1,
                         },
                         {
-                            'Name': 'Worker nodes',
-                            'Market': 'SPOT',
-                            'InstanceRole': 'CORE',
-                            'InstanceType': 'm5.xlarge',
+                            'Name'         : 'Worker nodes',
+                            'Market'       : 'SPOT',
+                            'InstanceRole' : 'CORE',
+                            'InstanceType' : 'm5.xlarge',
                             'InstanceCount': 1,
                         }
                     ],
-                    'Ec2KeyName': 'elwes-igti-teste',
+                    'Ec2KeyName'                 : 'elwes-igti-teste',
                     'KeepJobFlowAliveWhenNoSteps': True,
-                    'TerminationProtected': False,
-                    'Ec2SubnetId': 'subnet-1df20360'
+                    'TerminationProtected'       : False,
+                    'Ec2SubnetId'                : 'subnet-0384e2460c4c5b29e'
                 },
 
                 Applications=[
@@ -48,45 +48,45 @@ def handler(event, context):
 
                 Configurations=[{
                     "Classification": "spark-env",
-                    "Properties": {},
+                    "Properties"    : {},
                     "Configurations": [{
                         "Classification": "export",
-                        "Properties": {
-                            "PYSPARK_PYTHON": "/usr/bin/python3",
+                        "Properties"    : {
+                            "PYSPARK_PYTHON"       : "/usr/bin/python3",
                             "PYSPARK_DRIVER_PYTHON": "/usr/bin/python3"
                         }
                     }]
                 },
                     {
                         "Classification": "spark-hive-site",
-                        "Properties": {
+                        "Properties"    : {
                             "hive.metastore.client.factory.class": "com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory"
                         }
                     },
                     {
                         "Classification": "spark-defaults",
-                        "Properties": {
-                            "spark.submit.deployMode": "cluster",
-                            "spark.speculation": "false",
+                        "Properties"    : {
+                            "spark.submit.deployMode"   : "cluster",
+                            "spark.speculation"         : "false",
                             "spark.sql.adaptive.enabled": "true",
-                            "spark.serializer": "org.apache.spark.serializer.KryoSerializer"
+                            "spark.serializer"          : "org.apache.spark.serializer.KryoSerializer"
                         }
                     },
                     {
                         "Classification": "spark",
-                        "Properties": {
+                        "Properties"    : {
                             "maximizeResourceAllocation": "true"
                         }
                     }
                 ],
                 
-                StepConcurrencyLevel=1,
+                StepConcurrencyLevel = 1,
                 
                 Steps=[{
-                    'Name': 'Parquet Insert do RAIS',
+                    'Name'           : 'Parquet Insert do RAIS',
                     'ActionOnFailure': 'CONTINUE',
-                    'HadoopJarStep': {
-                        'Jar': 'command-runner.jar',
+                    'HadoopJarStep'  : {
+                        'Jar' : 'command-runner.jar',
                         'Args': ['spark-submit',
                                 #  '--packages', 'io.delta:delta-core_2.12:1.0.0', 
                                 #  '--conf', 'spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension', 
@@ -96,13 +96,14 @@ def handler(event, context):
                                  's3://datalake-ney-igti-edc-tf/emr-code/pyspark/01_parquet_spark_insert.py'
                                  ]
                     }
-                },
+                }
+                # ,
                 # {
-                #     'Name': 'Simulacao e UPSERT do ENEM',
-                #     'ActionOnFailure': 'CONTINUE',
-                #     'HadoopJarStep': {
-                #         'Jar': 'command-runner.jar',
-                #         'Args': ['spark-submit',
+                # 'Name'           : 'Simulacao e UPSERT do ENEM',
+                # 'ActionOnFailure': 'CONTINUE',
+                # 'HadoopJarStep'  : {
+                # 'Jar' : 'command-runner.jar',
+                # 'Args': ['spark-submit',
                 #                  '--packages', 'io.delta:delta-core_2.12:1.0.0', 
                 #                  '--conf', 'spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension', 
                 #                  '--conf', 'spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog', 
@@ -117,5 +118,5 @@ def handler(event, context):
     
     return {
         'statusCode': 200,
-        'body': f"Started job flow {cluster_id['JobFlowId']}"
+        'body'      : f"Started job flow {cluster_id['JobFlowId']}"
     }
