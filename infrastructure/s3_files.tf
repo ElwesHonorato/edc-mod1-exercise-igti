@@ -14,7 +14,7 @@ resource "aws_s3_object" "codigo_spark" {
 #   etag   = filemd5("../etl/lambda_function.py") # Update file if there is any changes, without this part of code it would be replaced at every run.
 # }
 
-resource "aws_s3_object" "codigo_spark" {
+resource "aws_s3_object" "parquet_insert" {
   bucket = aws_s3_bucket.datalake.id
   key    = "emr-code/pyspark/parquet_spark_insert.py"
   acl    = "private"
