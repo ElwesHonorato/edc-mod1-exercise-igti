@@ -16,9 +16,9 @@ resource "aws_s3_object" "codigo_spark" {
 
 resource "aws_s3_object" "parquet_insert" {
   bucket = aws_s3_bucket.datalake.id
-  key    = "emr-code/pyspark/parquet_spark_insert.py"
+  key    = "emr-code/pyspark/01_parquet_spark_insert.py"
   acl    = "private"
-  source = "../etl/parquet_spark_insert.py"
-  etag   = filemd5("../etl/parquet_spark_insert.py") # Update file if there is any changes, without this part of code it would be replaced at every run.
+  source = "../etl/01_parquet_spark_insert.py"
+  etag   = filemd5("../etl/01_parquet_spark_insert.py") # Update file if there is any changes, without this part of code it would be replaced at every run.
 }
 
