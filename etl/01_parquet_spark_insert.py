@@ -11,7 +11,7 @@ rais = (
     .option("header",True)
     .option("inferSchema",True)
     .option("delimiter",";")
-    .load("s3://igti-rais-prod-raw-data/raw-data/rais/ano=2020"))
+    .load("s3://igti-rais-prod-raw-data/raw-data/rais"))
 
 ################################################################################################################
 ##### Treatments
