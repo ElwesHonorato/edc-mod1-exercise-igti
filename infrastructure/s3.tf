@@ -6,3 +6,12 @@ resource "aws_s3_bucket" "datalake" {
     CURSO = "EDC"
   }
 }
+
+resource "aws_s3_bucket" "staging-zone" {
+  # Configuration parameters of the choosen resource
+  bucket = "${var.s3_rais_staging_zone}"
+  tags = {
+    IES   = "IGTI"
+    CURSO = "EDC"
+  }
+}

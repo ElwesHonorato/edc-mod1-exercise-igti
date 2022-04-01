@@ -16,5 +16,8 @@ variable "aws_region" {
 
 variable "lambda_function_name" {
     default = "IGTIexecutaEMR"
-  
+}
+
+variable "s3_rais_staging_zone" {
+    default = "igti-rais-prod-staging-zone"
 }
