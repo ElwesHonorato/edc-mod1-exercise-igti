@@ -22,3 +22,4 @@ resource "aws_s3_object" "parquet_insert" {
   etag   = filemd5("../etl/01_parquet_spark_insert.py") # Update file if there is any changes, without this part of code it would be replaced at every run.
 }
 
+
