@@ -93,7 +93,7 @@ def handler(event, context):
                                 #  '--conf', 'spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog', 
                                  '--master', 'yarn',
                                  '--deploy-mode', 'cluster',
-                                 's3://datalake-ney-igti-edc-tf/emr-code/pyspark/01_parquet_spark_insert.py'
+                                 's3://datalake-igti-tf-producao-151128108040/emr-code/pyspark/01_parquet_spark_insert.py'
                                  ]
                     }
                 }

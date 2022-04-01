@@ -118,5 +118,5 @@ rais = rais.withColumn("uf", f.col("municipio").cast('string').substr(1,2).cast(
     .write.mode('overwrite')
     .partitionBy('ano', 'uf')
     .format('parquet')
-    .save('"s3://igti-rais-prod-staging-zone/staging-zone/rais"')
+    .save('s3://igti-rais-prod-staging-zone/staging-zone/rais')
 )
