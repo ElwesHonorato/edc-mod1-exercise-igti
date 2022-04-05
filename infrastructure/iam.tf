@@ -114,7 +114,7 @@ resource "aws_iam_policy" "firehose" {
               "${aws_s3_bucket.stream.arn}",
               "${aws_s3_bucket.stream.arn}/*"
             ]
-        }
+        } 
     ]
 }
 EOF
