@@ -15,3 +15,12 @@ resource "aws_s3_bucket" "staging-zone" {
     CURSO = "EDC"
   }
 }
+
+resource "aws_s3_bucket" "stream" {
+  # Configuration parameters of the choosen resource
+  bucket = "igti-elwes-streaming-bucket"
+  tags = {
+    IES   = "IGTI"
+    CURSO = "EDC"
+  }
+}
